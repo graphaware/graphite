@@ -1,0 +1,28 @@
+groupId: com.graphaware
+artifactId: graphite-demo
+version: 1.0-SNAPSHOT
+name: graphite-demo
+description: Demo graphite application
+schema: [
+  {
+    source: School, target: Teacher+, type: STAFF
+  },
+  {
+    source: School, target: Student+, type: STUDENT
+  },
+  {
+    source: School, target: Department+, type: DEPARTMENT
+  },
+  {
+    source: Department, target: Subject+, type: CURRICULUM
+  },
+  {
+    source: Subject+, target: Teacher+, type: TAUGHT_BY
+  },
+  {
+    source: Student+, target: Student+, type: STUDY_BUDDY
+  },
+  {
+    source: Student+, target: Subject+, type: ENROLLED_IN
+  }
+]

@@ -1,0 +1,7 @@
+graphite.iml
+graphite.ipr
+graphite.iws
+graphite-demo
+target
+.idea/
+dependency-reduced-pom.xml
