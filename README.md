@@ -91,8 +91,22 @@ A simple CRUD-style web client can also be generated. Only the Angular framework
 ```graphite build -client=angular```  
 
 ## The demo app
-A demo app can be built automatically from the project code:
+Try the demo app:
+
+Build the project:
 
 ```git clone git@github.com:graphaware/graphite.com```
 
-```./demo.sh```
+```mvn clean package```
+
+Create the demo spring boot app
+
+```java -jar target/graphite.jar```
+
+Run it
+
+```cd graphite-demo```
+
+```mvn:spring-boot:run```
+
+
