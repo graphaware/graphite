@@ -107,6 +107,6 @@ Run it
 
 ```cd graphite-demo```
 
-```mvn:spring-boot:run```
+```mvn spring-boot:run```
 
 
