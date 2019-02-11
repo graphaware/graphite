@@ -1,5 +1,7 @@
 package com.graphaware.graphite;
 
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -28,6 +30,7 @@ public class Graphite {
     private Map<String, Object> config;
 
     public void load() throws IOException {
+        System.out.println("Loading configuration from 'config/graphite.yml'");
         Path path = Paths.get("config/graphite.yml");
         Yaml yaml = new Yaml();
         InputStream inputStream = new FileInputStream(path.toString());
@@ -121,6 +124,8 @@ public class Graphite {
 
     private void createFolders() throws Exception {
 
+        System.out.println("Creating source folders");
+
         String rootPackage = rootPackagePath();
 
         Files.createDirectories(Paths.get(rootPackage));
@@ -134,11 +139,13 @@ public class Graphite {
     }
     
     private void writePom() {
+        System.out.println("Creating Maven project " + this.name());
         String pom = new PomBuilder().build(this);
         write(Paths.get(buildPath().toString(), "pom.xml"), pom);
     }
 
     private void writeBootstrapper() {
+        System.out.println("Creating Bootstrap Service");
         String service = new BootstrapServiceBuilder().build(rootPackageName());
         write(Paths.get(rootPackagePath(), "service", "BootstrapService.java"), service);
         String controller = new BootstrapControllerBuilder().build(rootPackageName());
@@ -147,6 +154,8 @@ public class Graphite {
 
 
     private void writeRepositoryClasses() {
+
+        System.out.println("Creating Spring Data Neo4j repositories");
 
         String rootPackageName = rootPackageName();
         String rootPackagePath = rootPackagePath();
@@ -159,6 +168,8 @@ public class Graphite {
 
     private void writeControllerClasses() {
 
+        System.out.println("Creating controllers");
+
         String rootPackageName = rootPackageName();
         String rootPackagePath = rootPackagePath();
 
@@ -170,6 +181,8 @@ public class Graphite {
 
     private void writeDomainClasses() {
 
+        System.out.println("Creating domain entity classes");
+
         String rootPackageName = rootPackageName();
         String rootPackagePath = rootPackagePath();
 
@@ -180,22 +193,30 @@ public class Graphite {
     }
 
     private void writeApplicationClass() {
+        System.out.println("Creating Spring Boot Application");
         String app = new SpringBootNeo4jApplicationBuilder().build(rootPackageName());
         write(Paths.get(rootPackagePath(), "Application.java"), app);
     }
 
     private void copyBootstrapFile() {
+
+        System.out.println("Copying bootstrap files");
+
         Path source = Paths.get("config/bootstrap.cql");
         Path target = Paths.get(rootResourcePath(), "bootstrap.cql");
-        try {
-            Files.copy(source, target);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+
+        if (Files.exists(source)) {
+            try {
+                Files.copy(source, target, REPLACE_EXISTING);
+            } catch(Exception e){
+                throw new RuntimeException(e);
+            }
         }
     }
 
     private void write(Path target, String contents) {
         try {
+            System.out.println("Writing " + target);
             Files.write(target, contents.getBytes());
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -215,6 +236,8 @@ public class Graphite {
         graphite.writeControllerClasses();
         graphite.writeDomainClasses();
         graphite.copyBootstrapFile();
+
+        System.out.println("All done");
 
     }
 
