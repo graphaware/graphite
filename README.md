@@ -2,15 +2,6 @@
 
 Graphite is a Spring Boot application code generator for Spring Data Neo4j-based applications.
 
-## Installation
-
-```
-brew tap install graphaware/graphite
-brew install graphite
-```
-
-## How it works
-
 Graphite is driven by a single configuration file, which must be called `graphite.yml` and must be in the directory you invoke the `graphite` command from.  
 
 This file defines the application name, description, maven group and artifact ids, etc, together with a simple graph schema that will be used to build the application. 
@@ -51,12 +42,29 @@ Using the information in the config file Graphite will generate a ready-to-run m
 The generated application is created in the directory you run it from (i.e. the directory containing the `graphite.yml` config file), in a folder corresponding to the application name being generated.
 Is is pre-configured to use an embedded instance of Neo4j, but this can be changed by editing the pom file if you want to use an existing Neo4j instance.
 
+## Install
+
+```
+brew tap graphaware/graphite
+brew install graphite
+```
+
+Or, download the project source code and build it locally (see "Try the demo app" below)
+
+
 ## Generate
-To generate a new application, create a new directory and add the required configuration file to it (see "How it works", above)
+```
+mkdir -p myApp/config
+```
 
-Open a terminal window, `cd` to the directory and type
+```
+cd myApp
+```
 
-`graphite build`
+
+Configure the `config/graphite.yml` file as described above then build the application  
+
+`graphite`
 
 ## Run
 To run the application, `cd` into the newly created application directory and type `mvn spring-boot:run` at the command line.
@@ -73,7 +81,7 @@ You can of course add additional endpoints after the application has been genera
 
 ## Bootstrapping data
 
-You can provide a `bootstrap.cql` file in the same directory as the config file. It will be copied to `src/main/resources` of the generated application. When the app is running you can then bootstrap this data into the database, either from the browser:
+Add a `bootstrap.cql` file containing Cypher statements into the config directory. It will be copied to `src/main/resources` of the generated application. When the app starts import your bootstrap data into the database, either from the browser:
 
 ```http://localhost:8080/api/bootstrap``` 
 
@@ -88,10 +96,9 @@ The server publishes responses in JSON format, using the JSOG serialiser. This s
 ## Web client
 A simple CRUD-style web client can also be generated. Only the Angular framework is currently supported. To generate a web client, pass a `client` argument when invoking graphite:
 
-```graphite build -client=angular```  
+```graphite -client=angular```  
 
-## The demo app
-Try the demo app:
+## Try the demo app
 
 Build the project:
 

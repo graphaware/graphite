@@ -5,3 +5,4 @@ graphite-demo
 target
 .idea/
 dependency-reduced-pom.xml
+build/
