@@ -72,9 +72,9 @@ To run the application, `cd` into the newly created application directory and ty
 ## Application API
 The generated application api endpoints follow canonical REST standards. 
 
-```GET api/student``` will fetch all `Student` entities
+```GET api/students``` will fetch all `Student` entities
 
-```GET api/student/id=``` will fetch a `Student` entity with the specified id.
+```GET api/students/{id}``` will fetch a `Student` entity with the specified id.
 
 You can of course add additional endpoints after the application has been generated
 
